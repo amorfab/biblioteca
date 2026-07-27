@@ -15,10 +15,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<MensagemDeErro> handleNaoEncontrado(RuntimeException ex) {
         return ResponseEntity.status(404).body(new MensagemDeErro(404, ex.getMessage()));
     }
-    @ExceptionHandler(Exception.class)
+
+    /*@ExceptionHandler(Exception.class)
     public ResponseEntity<MensagemDeErro> handleGenerico(Exception ex) {
         return ResponseEntity.status(500).body(new MensagemDeErro(500, "Erro interno do servidor"));
-    }
+    }*/
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidacao(
@@ -29,4 +30,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(erros);
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<MensagemDeErro> handleGenerico(Exception ex) {
+        ex.printStackTrace();  // ← adiciona esta linha temporariamente
+        return ResponseEntity.status(500).body(new MensagemDeErro(500, "Erro interno do servidor"));
+    }
 }
